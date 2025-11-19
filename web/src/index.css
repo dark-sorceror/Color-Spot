@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
 
+* {
+    margin: 0;
+    padding: 0;
+}
+
 :root {
     font-family: "Montserrat";
     line-height: 1.5;
@@ -13,9 +18,6 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    padding: 0;
-    margin: 0;
 }
 
 html {

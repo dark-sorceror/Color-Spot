@@ -6,6 +6,8 @@ function App() {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
+    const [color, setColor] = useState<string, null>(null);
+
     useEffect(() => {
         async function initCamera() {
             const stream = await navigator.mediaDevices.getUserMedia({
@@ -41,7 +43,7 @@ function App() {
         ctx.drawImage(video, 0, 0);
 
         const base64 = canvas.toDataURL("image/png");
-        
+
         try {
             const res = await fetch("http://localhost:8000/color", {
                 method: "POST",
@@ -53,7 +55,7 @@ function App() {
                     x,
                     y,
                 }),
-            })
+            });
 
             if (!res.ok) {
                 const errText = await res.text().catch(() => "");
@@ -66,8 +68,12 @@ function App() {
             });
 
             console.log("ok", data);
+
+            setColor(`${data.r}, ${data.g}, ${data.b}`);
         } catch (error) {
-            error instanceof Error ? console.log(error.message) : console.log(error);
+            error instanceof Error
+                ? console.log(error.message)
+                : console.log(error);
         }
     }
 
@@ -76,7 +82,9 @@ function App() {
             <h1>Color Spot</h1>
             <video ref={ videoRef } autoPlay playsInline onClick={ handleClick } />
             <canvas ref={ canvasRef } style={{ display: "none" }} />
-            <div className="color">Color</div>
+            {color && 
+                <div className="color">{ color }</div>
+            }
         </div>
     );
 }
