@@ -6,7 +6,7 @@ function App() {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    const [color, setColor] = useState<string, null>(null);
+    const [color, setColor] = useState<string | null>(null);
 
     useEffect(() => {
         async function initCamera() {
@@ -67,9 +67,7 @@ function App() {
                 throw new Error("Invalid JSON in response");
             });
 
-            console.log("ok", data);
-
-            setColor(`${data.r}, ${data.g}, ${data.b}`);
+            setColor(data.hex);
         } catch (error) {
             error instanceof Error
                 ? console.log(error.message)
@@ -80,11 +78,11 @@ function App() {
     return (
         <div className="wrapper">
             <h1>Color Spot</h1>
-            <video ref={ videoRef } autoPlay playsInline onClick={ handleClick } />
-            <canvas ref={ canvasRef } style={{ display: "none" }} />
-            {color && 
-                <div className="color">{ color }</div>
-            }
+            <video ref={videoRef} autoPlay playsInline onClick={handleClick} />
+            <canvas ref={canvasRef} style={{ display: "none" }} />
+            <div className="color" style={{ color: color ?? "black" }}>
+                {color ?? "Click any color in your camera"}
+            </div>
         </div>
     );
 }

@@ -28,6 +28,9 @@ app.add_middleware(
     allow_headers = ["*"],
 )
 
+def rgb_to_hex(r: int, g: int, b: int) -> str:
+    return "#{:02x}{:02x}{:02x}".format(r, g, b)
+
 @app.post("/color")
 def pick_color(payload: FramePayload):
     img_b64 = re.sub(r"^data:image\/.+;base64,", "", payload.image)
@@ -54,7 +57,7 @@ def pick_color(payload: FramePayload):
 
     b, g, r = img[int(y), int(x)]
     
-    print(r, g, b)
+    hex = rgb_to_hex(int(r), int(g), int(b))
 
     return {
         "x": x,
@@ -62,6 +65,7 @@ def pick_color(payload: FramePayload):
         "r": int(r),
         "g": int(g),
         "b": int(b),
+        "hex": hex,
     }
 
 @app.get("/test")
