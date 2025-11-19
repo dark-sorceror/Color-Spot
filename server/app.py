@@ -38,7 +38,7 @@ def pick_color(payload: FramePayload):
         return {
             "error": "Invalid base64 image data"
         }
-    
+        
     np_arr = np.frombuffer(img_bytes, np.uint8)
     img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     
@@ -46,13 +46,15 @@ def pick_color(payload: FramePayload):
         return {
             "error": "Failed to decode image"
         }
-
+        
     h, w = img.shape[:2]
     
     x = max(0, min(payload.x, w - 1))
     y = max(0, min(payload.y, h - 1))
 
-    b, g, r = img[y, x]
+    b, g, r = img[int(y), int(x)]
+    
+    print(r, g, b)
 
     return {
         "x": x,
